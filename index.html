@@ -2,6 +2,7 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8">
+    <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <link rel="apple-touch-icon" sizes="76x76" href="./apple-touch-icon.png">
@@ -15,217 +16,262 @@
     <link rel="stylesheet" type="text/css" href="./slick/slick-theme.css">
     <link rel="stylesheet" type="text/css" href="./fontello/css/fontello.css">
     <link rel="stylesheet" type="text/css" href="./styles.css">
+    <script src="./jquery-3.3.1.min.js"></script>
+    <script src="./slick/slick.min.js"></script>
+    <script src="./script.js"></script>
     <title>Масляев Денис - официальный сайт</title>
   </head>
   <body>
-    <div id="popup-container">
-		    <div id="popup">
-            <!-- тест коммита -->
-        </div>
-		</div>
-    <header>
-      <div class="fixed-container">
-        <nav class="icon-menu gradient-color" id="menu320px" aria-label="иконка меню при ширине экрана 320px"></nav>
-        <menu id="menu">
-          <li class="menu-item"><a href="#my-skill">Услуги</a></li>
-          <li class="menu-item"><a class="active" href="#my-work">Порфолио</a></li>
-          <li class="menu-item"><a href="#work-cost">Стоимость</a></li>
-        </menu>
-
-        <div id="head-contacts">
-          <a href="tel:+7(499)995-55-77">+7 (499) 995-55-77</a>
-        </div>
-
-        <form enctype="multipart/form-data" id="head-zakaz" action="#" method="post">
-          <input class="zakaz-button" type="submit" name="head-zakaz" value="Заказать проект">
-          <button class="icon-phone-circled gradient-color" type="submit" name="head-zakaz"></button>
+    <!-- всплывающее фиксированное окно поверх всех блоков-->
+    <div class="popup-wrapper">
+        <form id="popup-form" class="popup-wrapper__form popup-form" method="post">
+          <div class="popup-form__group">
+            <label for="popup-name">Представьтесь, пожалуйста: <span class="color-red">*</span></label>
+            <input type="text" name="name" id="popup-name" placeholder="Как к вам обращаться?" required>
+          </div>
+          <div class="popup-form__group">
+            <label for="popup-email">Укажите ваш email: <span class="color-red">*</span></label>
+            <input type="email" name="mail" id="popup-email"  placeholder="Email" required>
+          </div>
+          <div class="popup-form__group">
+            <label for="popup-phone">Укажите ваш телефон: <span class="color-red">*</span></label>
+            <input type="tel" name="phone" id="popup-phone" placeholder="Номер телефона +7" required>
+          </div>
+          <div class="popup-form__group">
+            <label for="popup-message">Доп. информация:</label>
+            <textarea name="message" id="popup-message"></textarea>
+          </div>
+          <div class="popup-form__pt-3">
+            <input type="submit" id="popup-submit" class="popup-form__submit form-submit bg-red" value="Отправить">
+            <button type="button" class="popup-form__reset form-submit bg_transparent" onclick="form.reset()">Очистить</button>
+          </div>
+          <div class="popup-form__py-3">
+              <small>Поля отмеченные звездочкой <span class="color-red">*</span> являются обязательными для заполнения.</small>
+          </div>
         </form>
+        <script>
+    			document.getElementById('popup-form').addEventListener('submit', function(evt){
+            var http = new XMLHttpRequest(), f = this;
+            evt.preventDefault();
+            http.open("POST", "contacts.php", true);
+            http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            http.send("name=" + f.name.value + "&mail=" + f.mail.value + "&phone=" + f.phone.value + "&message=" + f.message.value);
+            http.onreadystatechange = function() {
+              if (http.readyState == 4 && http.status == 200) {
+                alert(http.responseText + ', Ваше сообщение получено.\nЯ отвечу Вам в течении 2-х дней.\nБлагодарю за доверие!');    
+                f.message.removeAttribute('value'); // очистить поле сообщения (две строки)
+                f.message.value='';
+              }
+            }
+            http.onerror = function() {
+              alert('Извините, данные не были переданы');
+            }
+          }, false);
+    		</script>
+	</div>
+    <!-- Шапка сайта -->
+    <header class="header">
+      <div class="header__toogle-menu icon-menu gradient-color" aria-label="кнопка показа/скрытия меню при размерах < 1024px"></div>
+      <nav class="header__nav nav">
+        <ul class="nav__list">
+          <li class="nav__item"><a class="nav__link" href="#my-skill">Услуги</a></li>
+          <li class="nav__item"><a class="nav__link" href="#my-work">Порфолио</a></li>
+          <li class="nav__item"><a class="nav__link" href="#work-cost">Стоимость</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__contacts phone">
+        <a class="phone__link" href="tel:+7(499)995-55-77">+7 (499) 995-55-77</a>
       </div>
+
+      <a class="header__link popup-link link-button bg-transparent popup-link" href="#">Заказать проект</a>
+      <a class="header__link popup-link icon-phone-circled gradient-color" href="#" aria-label="Заказать проект"></a>
     </header>
+    <!-- Главное содержимое страницы -->
+    <main class="main">
+      <!-- Разделы главного содержимого -->
+      <section class="about-me">
+        <div class="about-me__wrapper fixed-container">
+          <span class="about-me__char char gradient-color char_fly1" aria-hidden="true"></span>
+          <span class="about-me__char char gradient-color char_fly2" aria-hidden="true"></span>
+          <span class="about-me__char char gradient-color char_fly3" aria-hidden="true"></span>
+          <span class="about-me__char char gradient-color char_fly4" aria-hidden="true"></span>
+          <span class="about-me__char char gradient-color char_fly5" aria-hidden="true"></span>
+          <h1 class="about-me__title">Масляев Денис</h1>
 
-    <main>
-      <section id="about-me">
-        <div class="fixed-container">
-          <span class="fly-char gradient-color fly-char1" aria-label="летающие {}"></span>
-          <span class="fly-char gradient-color fly-char2" aria-label="летающий блок <DIV> №1"></span>
-          <span class="fly-char gradient-color fly-char3" aria-label="летающий блок <DIV> №2"></span>
-          <span class="fly-char gradient-color fly-char4" aria-label="летающая #"></span>
-          <span class="fly-char gradient-color fly-char5" aria-label="летающая </>"></span>
-          <h1>Масляев Денис</h1>
+          <h2 class="about-me__desc">Frontend-разработчик и веб-верстальщик</h2>
 
-          <h2>Frontend-разработчик и веб-верстальщик</h2>
-
-          <form enctype="multipart/form-data" id="discover-more" action="#my-skill" method="post">
-            <input class="red-button" type="submit" name="discover-more" value="Узнать больше">
-          </form>
+          <a class="about-me__link-button link-button link-button_bg_red bg-red" href="#my-skill">Узнать больше</a>
         </div>
       </section>
 
-      <section id="my-skill">
-        <div class="fixed-container">
-          <h3>Что я делаю</h3>
+      <section class="my-skill" id="my-skill">
+        <div class="my-skill__wrapper fixed-container">
+          <h3 class="my-skill__title section-title">Что я делаю</h3>
 
-          <ul id="skill-list">
-            <li class="skill-list-item">
-              <article>
-                <h4 class="visually-hidden">Вёрстка лендинг&mdash;страниц и&nbsp;сайтов любой сложности</h4>
-                <figure>
-                  <p><img src="./img/code.png" alt="Вёрстка лендинг-страниц и сайтов любой сложности"></p>
-                  <figcaption>Вёрстка лендинг&mdash;страниц и&nbsp;сайтов любой сложности</figcaption>
+          <ul class="my-skill__list skill-list">
+            <li class="skill-list__item">
+              <article class="skill-list__article skill">
+                <h4 class="skill__title visually-hidden">Вёрстка лендинг&mdash;страниц и&nbsp;сайтов любой сложности</h4>
+                <figure class="skill__figure">
+                  <p class="skill__img-wrapper">
+                    <img class="skill__img" src="./img/code.png" alt="Вёрстка лендинг-страниц и сайтов любой сложности">
+                  </p>
+                  <figcaption class="skill__desc">Вёрстка лендинг&mdash;страниц и&nbsp;сайтов любой сложности</figcaption>
                 </figure>
               </article>
             </li>
 
-            <li class="skill-list-item">
-              <article>
-                <h4 class="visually-hidden">Адаптивная вёрстка под все браузеры и&nbsp;устройства</h4>
-                <figure>
-                  <p><img src="./img/adaptive.png" alt="Адаптивная вёрстка под все браузеры и устройства"></p>
-                  <figcaption>Адаптивная вёрстка под все браузеры и&nbsp;устройства</figcaption>
+            <li class="skill-list__item">
+              <article class="skill-list__article skill">
+                <h4 class="skill__title visually-hidden">Адаптивная вёрстка под все браузеры и&nbsp;устройства</h4>
+                <figure class="skill__figure">
+                  <p class="skill__img-wrapper">
+                    <img class="skill__img" src="./img/adaptive.png" alt="Адаптивная вёрстка под все браузеры и устройства">
+                  </p>
+                  <figcaption class="skill__desc">Адаптивная вёрстка под все браузеры и&nbsp;устройства</figcaption>
                 </figure>
               </article>
             </li>
 
-            <li class="skill-list-item">
-              <article>
-                <h4 class="visually-hidden">Frontend&mdash;разработка и&nbsp;программирование</h4>
-
-                <figure>
-                  <p><img src="./img/develop.png" alt="Frontend-разработка и программирование"></p>
-                  <figcaption>Frontend&mdash;разработка и&nbsp;программирование</figcaption>
+            <li class="skill-list__item">
+              <article class="skill-list__article skill">
+                <h4 class="skill__title visually-hidden">Frontend&mdash;разработка и&nbsp;программирование</h4>
+                <figure class="skill__figure">
+                  <p class="skill__img-wrapper">
+                    <img class="skill__img" src="./img/develop.png" alt="Frontend-разработка и программирование">
+                  </p>
+                  <figcaption class="skill__desc">Frontend&mdash;разработка и&nbsp;программирование</figcaption>
                 </figure>
               </article>
             </li>
 
-            <li class="skill-list-item">
-              <article>
-                <h4 class="visually-hidden">Исправление и&nbsp;доработка существующей вёрстки</h4>
-
-                <figure>
-                  <p><img src="./img/correct.png" alt="Исправление и доработка существующей вёрстки"></p>
-                  <figcaption>Исправление и&nbsp;доработка существующей вёрстки</figcaption>
+            <li class="skill-list__item">
+              <article class="skill-list__article skill">
+                <h4 class="skill__title visually-hidden">Исправление и&nbsp;доработка существующей вёрстки</h4>
+                <figure class="skill__figure">
+                  <p class="skill__img-wrapper">
+                    <img class="skill__img" src="./img/correct.png" alt="Исправление и доработка существующей вёрстки">
+                  </p>
+                  <figcaption class="skill__desc">Исправление и&nbsp;доработка существующей вёрстки</figcaption>
                 </figure>
               </article>
             </li>
           </ul>
 
-          <form class="form-center" enctype="multipart/form-data" id="discover-cost" action="#work-cost" method="post">
-            <input class="red-button" type="submit" name="discover-cost" value="Узнать стоимость">
-          </form>
+          <a class="my-skill__link link-button bg-red" href="#work-cost">Узнать стоимость</a>
         </div>
       </section>
 
-      <section id="my-work">
-        <div class="fixed-container">
-          <h3>Примеры моих работ</h3>
+      <section class="my-work" id="my-work">
+        <div class="my-work__wrapper fixed-container">
+          <h3 class="my-work__title section-title">Примеры моих работ</h3>
 
-          <ul id="work-list" class="slider-nav">
-            <li class="work-list-item">
-              <article>
-                <h4 class="visually-hidden">Сайт психолога Веры Антоновой</h4>
-                <figure>
-                  <p><img src="./img/work1.jpg" alt="Сайт психолога Веры Антоновой"></p>
-                  <figcaption>Сайт психолога Веры Антоновой</figcaption>
+          <ul class="my-work__list work-list slider-nav">
+            <li class="work-list__item">
+              <article class="work-list__article work">
+                <h4 class="work__title visually-hidden">Сайт психолога Веры Антоновой</h4>
+                <figure class="work__figure">
+                  <p class="work__img-wrapper"><img class="work__img" src="./img/work1.jpg" alt="Сайт психолога Веры Антоновой"></p>
+                  <figcaption class="work__desc">Сайт психолога Веры Антоновой</figcaption>
                 </figure>
               </article>
             </li>
 
-            <li class="work-list-item">
-              <article>
-                <h4 class="visually-hidden">Сайт магазина детской одежды</h4>
-                <figure>
-                  <p><img src="./img/work2.jpg" alt="Сайт магазина детской одежды"></p>
-                  <figcaption>Сайт магазина детской одежды</figcaption>
+            <li class="work-list__item">
+              <article class="work-list__article work">
+                <h4 class="work__title visually-hidden">Сайт магазина детской одежды</h4>
+                <figure class="work__figure">
+                  <p class="work__img-wrapper"><img class="work__img" src="./img/work2.jpg" alt="Сайт магазина детской одежды"></p>
+                  <figcaption class="work__desc">Сайт магазина детской одежды</figcaption>
                 </figure>
               </article>
             </li>
 
-            <li class="work-list-item">
-              <article>
-                <h4 class="visually-hidden">Сайт магазина &laquo;Рыболов1&raquo;</h4>
-                <figure>
-                  <p><img src="./img/work3.jpg" alt="Сайт магазина Рыболов"></p>
-                  <figcaption>Сайт магазина &laquo;Рыболов&raquo;</figcaption>
+            <li class="work-list__item">
+              <article class="work-list__article work">
+                <h4 class="work__title visually-hidden">Сайт магазина &laquo;Рыболов1&raquo;</h4>
+                <figure class="work__figure">
+                  <p class="work__img-wrapper"><img class="work__img" src="./img/work3.jpg" alt="Сайт магазина Рыболов"></p>
+                  <figcaption class="work__desc">Сайт магазина &laquo;Рыболов&raquo;</figcaption>
                 </figure>
               </article>
             </li>
 
-            <li class="work-list-item">
-              <article>
-                <h4 class="visually-hidden">Сайт магазина &laquo;Рыболов2&raquo;</h4>
-                <figure>
-                  <p><img src="./img/work3.jpg" alt="Сайт магазина Рыболов2"></p>
-                  <figcaption>Сайт магазина &laquo;Рыболов2&raquo;</figcaption>
+            <li class="work-list__item">
+              <article class="work-list__article work">
+                <h4 class="work__title visually-hidden">Сайт магазина &laquo;Рыболов2&raquo;</h4>
+                <figure class="work__figure">
+                  <p class="work__img-wrapper"><img class="work__img" src="./img/work3.jpg" alt="Сайт магазина Рыболов2"></p>
+                  <figcaption class="work__desc">Сайт магазина &laquo;Рыболов2&raquo;</figcaption>
                 </figure>
               </article>
             </li>
           </ul>
-          <form class="form-center" enctype="multipart/form-data" id="order" action="#" method="post">
-            <input class="red-button" type="submit" name="order" value="Заказать проект">
-          </form>
+          <a class="my-work__link link-button center bg-red popup-link" href="#work-cost">Заказать проект</a>
         </div>
       </section>
 
-      <section id="work-cost">
-        <span class="fly-char char1" aria-label="летающие {} №1"></span>
-        <span class="fly-char char2" aria-label="летающие {} №2"></span>
-        <span class="fly-char char3" aria-label="летающий блок <DIV>"></span>
-        <span class="fly-char char4" aria-label="летающая #"></span>
-        <span class="fly-char char5" aria-label="летающая </>"></span>
-        <div class="fixed-container">
-          <h3>Адаптивная вёрстка под все устройства и&nbsp;браузеры от&nbsp;1000 рублей всего за&nbsp;4&nbsp;часа.<sup>*</sup></h3>
-          <p><sup>*</sup> Срок и&nbsp;стоимость могут отличаться от&nbsp;заявленных и&nbsp;рассчитываются индивидуально, в&nbsp;зависимости от&nbsp;сложности задач.</p>
+      <section class="work-cost" id="work-cost">
+        <h3 class="work-cost__title section-title visually-hidden">Стоимость работ</h3>
+        <span class="work-cost__char char char_color_white char1" aria-hidden="true"></span>
+        <span class="work-cost__char char char_color_white char2" aria-hidden="true"></span>
+        <span class="work-cost__char char char_color_white char3" aria-hidden="true"></span>
+        <span class="work-cost__char char char_color_white char4" aria-hidden="true"></span>
+        <span class="work-cost__char char char_color_white char5" aria-hidden="true"></span>
+        <div class="work-cost__wrapper fixed-container">
+          <p class="work-cost__desk">Адаптивная вёрстка под все устройства и&nbsp;браузеры от&nbsp;1000 рублей всего за&nbsp;4&nbsp;часа.<sup>*</sup></p>
+          <p class="work-cost__remark"><sup>*</sup> Срок и&nbsp;стоимость могут отличаться от&nbsp;заявленных и&nbsp;рассчитываются индивидуально, в&nbsp;зависимости от&nbsp;сложности задач.</p>
         </div>
       </section>
 
     </main>
+    <!-- Подвал сайта -->
+    <footer class="footer">
+      <div class="footer__top footer-top fixed-container">
+        <ul class="footer-top__nav footer-nav">
+          <li class="footer-nav__item"><a class="footer-nav__link" href="#my-skill">Услуги</a></li>
+          <li class="footer-nav__item"><a class="footer-nav__link"  href="#my-work">Порфолио</a></li>
+          <li class="footer-nav__item"><a class="footer-nav__link"  href="#work-cost">Стоимость</a></li>
+        </ul>
 
-    <footer>
-      <div id="foot-top">
-        <div class="fixed-container">
-            <ul id="foot-menu">
-              <li class="foot-menu-item"><a href="#my-skill">Услуги</a></li>
-              <li class="foot-menu-item"><a href="#my-work">Порфолио</a></li>
-              <li class="foot-menu-item"><a href="#work-cost">Стоимость</a></li>
-            </ul>
+        <ul class="footer-top__contacts footer-contacts">
+          <li class="footer-contacts__item contacts-item">
+            <span class="contacts-item__ico icon-phone gradient-color" aria-label="иконка трубки"></span>
+            <a class="contacts-item__link" href="tel:+7(499)995-55-77">+7 (499) 995-55-77</a>
+          </li>
+          <li class="footer-contacts__item contacts-item">
+            <span class="contacts-item__ico icon-mail-alt gradient-color" aria-label="иконка почты"></span>
+            <a class="contacts-item__link" href="mailto:denis@maslyaev.site">denis@maslyaev.site</a>
+          </li>
+        </ul>
 
-            <ul id="foot-contacts">
-              <li class="foot-contacts-item"><span class="icon-phone gradient-color" aria-label="иконка трубки"></span><a href="tel:+7(499)995-55-77">+7 (499) 995-55-77</a></li>
-              <li class="foot-contacts-item"><span class="icon-mail-alt gradient-color" aria-label="иконка почты"></span><a href="mailto:denis@maslyaev.ru">denis@maslyaev.ru</a></li>
-            </ul>
+        <div class="footer__social social">
+          <a class="social__link link-button bg-transparent popup-link" href="#">Заказать проект</a>
 
-            <div id="zakaz-and-social">
-              <form enctype="multipart/form-data" id="foot-zakaz" action="#" method="post">
-                <input class="zakaz-button" type="submit" name="foot-zakaz" value="Заказать проект">
-              </form>
+          <ul class="social__list social-list">
+            <li class="social-list__item">
+              <a class="social-list__link social-list__link_vk" target="_blank" href="https://vk.com/maslyaev" aria-label="Моя страница в vk"></a>
+            </li>
 
-              <ul id="social-list">
-                <li class="social-list-item">
-                  <a id="vk" href="#" aria-label="Моя страница в vk"></a>
-                </li>
+            <li class="social-list__item">
+              <a class="social-list__link social-list__link_fb" target="_blank" href="https://www.facebook.com/maslyaev" aria-label="Моя страница в facebook"></a>
+            </li>
 
-                <li class="social-list-item">
-                  <a id="fb" href="#" aria-label="Моя страница в facebook"></a>
-                </li>
+            <li class="social-list__item">
+              <a class="social-list__link social-list__link_tw" target="_blank" href="#" aria-label="Моя страница в twitter"></a>
+            </li>
 
-                <li class="social-list-item">
-                  <a id="tw" href="#" aria-label="Моя страница в twitter"></a>
-                </li>
-
-                <li class="social-list-item">
-                  <a id="instagram" href="#" aria-label="Моя страница в instagram"></a>
-                </li>
-              </ul>
-            </div>
+            <li class="social-list__item">
+              <a class="social-list__link social-list__link_instagram" target="_blank" href="https://www.instagram.com/bars2x6/" aria-label="Моя страница в instagram"></a>
+            </li>
+          </ul>
         </div>
       </div>
-
-      <div id="copyright">
-        <p>&copy; Денис Масляев 2018-2019</p>
+      <div class="footer__bot copyright">
+        <p class="copyright__text">&copy; Денис Масляев 2018-2019</p>
       </div>
     </footer>
-    <script src="./jquery-3.3.1.min.js"></script>
-    <script src="./slick/slick.min.js"></script>
-    <script src="./script.js"></script>
+    
   </body>
 </html>

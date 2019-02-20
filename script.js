@@ -1,12 +1,11 @@
-
 $(function() {
-	$('.icon-phone-circled, .zakaz-button, #order .red-button').click(function() {
-		$('#popup-container').css('display','flex');
+	$('.popup-link').click(function() {
+		$('.popup-wrapper').css('display','flex');
     return false;
 	});
-	$('#popup-container').click(function(e) {
+	$('.popup-wrapper').click(function(e) {
 		if(this === e.target) {
-		     $('#popup-container').css('display','none');
+		     $('.popup-wrapper').css('display','none');
 	  }
 	});
 	// начало кода слайдер Slick
@@ -44,13 +43,13 @@ $(function() {
 	});
 	// конец кода слайдер Slick
 	// код меню при 320px
-	$('#menu320px').on('click', function() {
-		if ($('#menu').css('display') == 'none') {
-			$('#menu').show();
+	$('.header__toogle-menu').on('click', function() {
+		if ($('.header__nav').css('display') == 'none') {
+			$('.header__nav').show();
 			$(this).removeClass('icon-menu');
 			$(this).addClass('icon-cancel-1');
 		} else {
-			$('#menu').hide();
+			$('.header__nav').hide();
 			$(this).removeClass('icon-cancel-1');
 			$(this).addClass('icon-menu');
 		}
@@ -58,24 +57,22 @@ $(function() {
   $(window).resize(function() {
 		var windowWidth = $(window).width();
 		if (windowWidth > 704) {
-			var bgPositionMen = windowWidth - windowWidth/1.7;
+			var bgPositionEllipse = windowWidth - windowWidth/1.7;
 		} else if (windowWidth >= 337 && windowWidth <= 704) {
-			var bgPositionMen = windowWidth-397;
-		}	else if (windowWidth >= 337 && windowWidth <= 704) {
+			var bgPositionEllipse = windowWidth-397;
+		} else if (windowWidth < 337) {
 			var bgPositionEllipse = -60;
-			var bgPositionMen = windowWidth-337+78;
-			$('#about-me .fixed-container').css('background-position-x', bgPositionMen + 'px');
 		}
-		$('#about-me').css('background-position-x', bgPositionEllipse + 'px');
+		$('.about-me').css('background-position-x', bgPositionEllipse + 'px');
 
-		if ($('#menu320px').css('display') == 'none') {
-      $('#menu').show();
-			$('#menu320px').removeClass('icon-menu');
-			$('#menu320px').addClass('icon-cancel-1');
+		if ($('.header__toogle-menu').css('display') == 'none') {
+      $('.header__nav').show();
+			$('.header__toogle-menu').removeClass('icon-menu');
+			$('.header__toogle-menu').addClass('icon-cancel-1');
     } else {
-			$('#menu').hide();
-			$('#menu320px').removeClass('icon-cancel-1');
-			$('#menu320px').addClass('icon-menu');
+			$('.header__nav').hide();
+			$('.header__toogle-menu').removeClass('icon-cancel-1');
+			$('.header__toogle-menu').addClass('icon-menu');
     }
 
 	});
